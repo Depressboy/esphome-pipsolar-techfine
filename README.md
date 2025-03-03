@@ -3,6 +3,7 @@ ESPHome component to monitor and control a pipsolar inverter via RS232
 
 Supported devices
 PIP4048 compatible PV Inverter
+
 GD11048MH Solar Inverter
 
 Requirements
