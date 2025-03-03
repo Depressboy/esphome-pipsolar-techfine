@@ -2,9 +2,10 @@
 ESPHome component to monitor and control a pipsolar inverter via RS232
 
 Supported devices
-PIP4048 compatible PV Inverter
 
+PIP4048 compatible PV Inverter
 GD11048MH Solar Inverter
+添加泰琪丰PV2参数支持
 
 Requirements
 ESPHome 2024.6.0 or higher.
