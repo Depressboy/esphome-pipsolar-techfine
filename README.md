@@ -23,6 +23,8 @@ Generic ESP32 or ESP8266 board
   <img src="https://github.com/Depressboy/esphome-pipsolar-techfine/blob/main/images/1.png" height="172">
 </a>
 
+
+
 <a href="https://raw.githubusercontent.com/syssi/esphome-pipsolar/main/images/001.jpg" target="_blank">
   <img src="https://raw.githubusercontent.com/syssi/esphome-pipsolar/main/images/001.jpg" height="172">
 </a>
