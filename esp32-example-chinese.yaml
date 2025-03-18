@@ -60,18 +60,18 @@ sensor:
     grid_voltage:
       name: GV-市电电压
     pv_input_voltage:
-      name: PIV-主光伏输入电压
+      name: PIV-PV1输入电压
     pv_input_current_for_battery:
-      name: PIC-主光伏输入电流
+      name: PIC-PV1输入电流
     pv_charging_power:
-      name: PCP-主光伏输入功率
+      name: PCP-PV1输入功率
       id: PCP
     pv2_input_voltage:
-      name: P2V-副光伏输入电压
+      name: P2V-PV2输入电压
     pv2_input_current:
-      name: P2C-副光伏输入电流
+      name: P2C-PV2输入电流
     pv2_input_power:
-      name: P2P-副光伏输入功率
+      name: P2P-PV2输入功率
       id: P2P
     battery_voltage:
       name: BATV-电池电压
@@ -101,11 +101,11 @@ sensor:
       name: TEG-总发电量
 
   - platform: total_daily_energy
-    name: "TPCP-主光伏日发电量"
+    name: "TPCP-PV1日发电量"
     accuracy_decimals: 1
     power_id: PCP
   - platform: total_daily_energy
-    name: "T2CP-副光伏日发电量"
+    name: "T2CP-PV2日发电量"
     accuracy_decimals: 1
     power_id: P2P
   - platform: total_daily_energy
