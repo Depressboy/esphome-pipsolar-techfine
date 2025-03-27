@@ -1,0 +1,150 @@
+substitutions:
+  name: yuhui-mppt
+  device_description: "Monitor and control a pipsolar inverter via RS232"
+  external_components_source: github://Depressboy/esphome-pipsolar-techfine@main
+  tx_pin: GPIO2
+  rx_pin: GPIO4
+  rx_timeout: 2000ms
+
+esphome:
+  name: ${name}
+  comment: ${device_description}
+  min_version: 2024.6.0
+  project:
+    name: "Depressboy.esphome-pipsolar-techfine"
+    version: 1.0.1
+
+esp8266:
+  board: d1_mini
+
+external_components:
+  - source: ${external_components_source}
+    refresh: 0s
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+ota:
+  platform: esphome
+
+logger:
+  level: DEBUG
+
+# If you use Home Assistant please remove this `mqtt` section and uncomment the `api` component!
+# The native API has many advantages over MQTT: https://esphome.io/components/api.html#advantages-over-mqtt
+
+mqtt:
+  broker: !secret mqtt_host
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  id: mqtt_client
+
+api:
+
+uart:
+  - id: uart_bus_0
+    baud_rate: 2400
+    tx_pin: ${tx_pin}
+    rx_pin: ${rx_pin}
+
+pipsolar2:
+  - id: inverter0
+
+sensor:
+  - platform: pipsolar2
+    pipsolar_id: inverter0
+    bus_voltage:
+      name: BUSV-总线电压
+    grid_voltage:
+      name: GV-市电电压
+    pv_input_voltage:
+      name: PIV-PV1输入电压
+    pv_input_current_for_battery:
+      name: PIC-PV1输入电流
+    pv_charging_power:
+      name: PCP-PV1输入功率
+      id: PCP
+    pv2_input_voltage:
+      name: P2V-PV2输入电压
+    pv2_input_current:
+      name: P2C-PV2输入电流
+    pv2_input_power:
+      name: P2P-PV2输入功率
+      id: P2P
+    battery_voltage:
+      name: BATV-电池电压
+    battery_charging_current:
+      name: BCC-电池充电电流
+    battery_discharge_current:
+      name: BDC-电池放电电流
+    battery_capacity_percent:
+      name: BCP-电池剩余量
+    ac_output_voltage:
+      name: OAV-输出电压
+    ac_output_apparent_power:
+      name: OAPP-输出视在功率
+      id: OAPP
+    ac_output_active_power:
+      name: OACP-输出有功功率
+      id: OACP
+    output_load_percent:
+      name: OLP-负载量
+    inverter_heat_sink_temperature:
+      name: IHST-内部温度
+    daily_electricity_generation:
+      name: DEG-日发电量
+    monthly_electricity_generation:
+      name: MEG-月发电量
+    total_electricity_generation:
+      name: TEG-总发电量
+
+  - platform: total_daily_energy
+    name: "TPCP-PV1日发电量"
+    accuracy_decimals: 1
+    power_id: PCP
+  - platform: total_daily_energy
+    name: "T2CP-PV2日发电量"
+    accuracy_decimals: 1
+    power_id: P2P
+  - platform: total_daily_energy
+    name: "TOAPP-日耗电量"
+    accuracy_decimals: 1
+    power_id: OACP
+
+binary_sensor:
+  - platform: pipsolar2
+    pipsolar_id: inverter0
+    charging_status:
+      name: CS-充电状态
+    switch_on:
+      name: CO-总开关
+    warnings_present:
+      name: WP-警告状态
+
+switch:
+  - platform: pipsolar2
+    pipsolar_id: inverter0
+    output_source_priority_utility:
+      name: OSPU-市电优先
+    output_source_priority_solar:
+      name: OSPS-电池优先
+      
+
+text_sensor:
+  - platform: pipsolar2
+    pipsolar_id: inverter0
+    device_mode:
+      name: DM-当前运行模式
+      filters:
+        - map:
+          - P -> 开机模式
+          - S -> 待机模式
+          - L -> 市电模式
+          - B -> 电池模式
+          - F -> 故障模式
+          - H -> 省电模式
+
+time:
+  - platform: sntp
+    id: my_time 
