@@ -41,7 +41,7 @@ mqtt:
   password: !secret mqtt_password
   id: mqtt_client
 
-# api:
+api:
 
 uart:
   - id: uart_bus_0
